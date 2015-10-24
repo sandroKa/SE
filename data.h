@@ -1,11 +1,29 @@
 #ifndef DATA_H
 #define DATA_H
 
+#include <QtSql>
+#include "idata.h"
 
-class Data
+namespace Data
 {
-public:
-    Data();
-};
+    class Data : public IData
+    {
+    public:
+        Data();
+        virtual void reset(bool);
+        virtual int newMember(const QString&);
+        virtual void deleteMember(int);
+        virtual QString retrieveMemberPassword(const QString&);
+        virtual QString retrieveMemberPassword(int);
+        virtual int retrieveMemberID(const QString&);
+        virtual void setMemberPassword(const QString&, int);
+        virtual void retrieveMemberList(QList<int>&);
+        virtual ~Data();
+    private:
+                //QSqlDatabase db;
+                QSqlQuery query;
 
+                void createDatabase();
+    };
+}
 #endif // DATA_H

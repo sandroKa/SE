@@ -1,22 +1,27 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
-#include <QMainWindow>
+#include "household.h"
+#include <QtWidgets/QMainWindow>
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+namespace GUI
 {
-    Q_OBJECT
+    class MainWindow : public QMainWindow
+    {
+        Q_OBJECT
 
-public:
-    explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    public:
+        explicit MainWindow(QWidget *parent = 0);
+        ~MainWindow();
 
-private:
-    Ui::MainWindow *ui;
-};
+        int start(QApplication *);
 
+    private:
+        Ui::MainWindow *ui;
+        logic::Household *household;
+    };
+}
 #endif // MAINWINDOW_H

@@ -5,16 +5,28 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += sql
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
 TARGET = Household
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    login.cpp \
+    data.cpp \
+    household.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    login.h \
+    data.h \
+    idata.h \
+    household.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    login.ui
+
+DISTFILES += \
+    HouseholdDB
