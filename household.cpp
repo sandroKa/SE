@@ -18,20 +18,30 @@ bool logic::Household::isAdmin() const
     return id == ADMIN_ID;
 }
 
-bool logic::Household::loginUser(const QString &mail, const QString &password)
+int logic::Household::loginUser(const QString &mail, const QString &password)
 {
+    int tempid = data->retrieveMemberID(mail);
     if(password.isEmpty())
     {
         return false;
     }
-
+    if(data->isLocked(mail))
+    {
+        std::cerr << "locked";
+        return -2;
+    }
     if(password.compare(data->retrieveMemberPassword(mail)) == 0)
         {
-            this->id = data->retrieveMemberID(mail);
+            this->id = tempid;
+            data->updateLogins(tempid, true);
             return true;
         }
-
-        return false;
+    if(data->updateLogins(tempid, false) == -2)
+    {
+        data->lock(tempid);
+        return -2;
+    }
+    return false;
 }
 
 int logic::Household::newUser(const QString &)
