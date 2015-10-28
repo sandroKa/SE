@@ -22,6 +22,7 @@ namespace Data
         virtual int updateLogins(int, bool);
         virtual void lock(int);
         virtual void retrieveTrans(const logic::transaction&, QList<logic::transaction>&);
+        virtual void retrieveCats(QList<logic::category>&);
 
         virtual ~Data();
     private:

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include "household.h"
 #include "transaction.h"
+#include "category.h"
 #include <QtWidgets/QMainWindow>
 #include <QList>
 
@@ -30,6 +31,7 @@ namespace GUI
         logic::Household *household;
         QLineEdit *rows[7];
         QList<logic::transaction> dataset;
+        QList<logic::category> categorysset;
     };
 }
 #endif // MAINWINDOW_H

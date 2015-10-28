@@ -4,6 +4,7 @@
 #include <QString>
 #include <QList>
 #include "transaction.h"
+#include "category.h"
 namespace Data
 {
     class IData
@@ -22,6 +23,7 @@ namespace Data
         virtual int updateLogins(int, bool) = 0;
         virtual void lock(int) = 0;
         virtual void retrieveTrans(const logic::transaction&, QList<logic::transaction>&) = 0;
+        virtual void retrieveCats(QList<logic::category>&) = 0;
     };
 }
 

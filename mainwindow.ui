@@ -92,6 +92,16 @@
      <string/>
     </property>
    </widget>
+   <widget class="QComboBox" name="cmb_Cat">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>20</y>
+      <width>104</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

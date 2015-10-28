@@ -11,17 +11,28 @@ GUI::MainWindow::MainWindow(QWidget *parent) :
     ui->date_from->setDate(QDate::currentDate().addMonths(-1));
     ui->date_to->setDate(QDate::currentDate());
     household = new logic::Household();
-    QString spaltenName[] = {"Reason", "Comment", "Date", "Category", "Payment_Method", "Value"};
+    QString ColumnName[] = {"Reason", "Comment", "Date", "Category", "Payment_Method", "Value"};
     ui->tbl_Overview->setColumnCount(6);
     ui->tbl_Overview->setRowCount(0);
     ui->tbl_Overview->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     for(int i = 0; i < 6; i++)
         {
-            ui->tbl_Overview->setHorizontalHeaderItem(i, new QTableWidgetItem(spaltenName[i]));
+            ui->tbl_Overview->setHorizontalHeaderItem(i, new QTableWidgetItem(ColumnName[i]));
         }
 
     QStringList list=(QStringList()<<"10"<<"20"<<"50");
     ui->cmb_DataCount->addItems(list);
+    household->retrieveCats(categorysset);
+    QListIterator<logic::category> dataIterator(categorysset);
+    list.clear();
+    list.append("<none>");
+    logic::category buffer;
+    while(dataIterator.hasNext())
+    {
+        buffer = dataIterator.next();
+        list.append(buffer.getCatName());
+    }
+    ui->cmb_Cat->addItems(list);
 
     /*for(int i = 0; i < 5; i++)
         {
@@ -61,7 +72,7 @@ void GUI::MainWindow::filter()
     filterTrans.setDate_to(ui->date_to->date().toString("yyyy-MM-dd"));
     filterTrans.setUserID(1);
     filterTrans.setIndex(ui->cmb_DataCount->currentText().toInt());
-    //std::cerr << ui->cmb_DataCount->currentText().toStdString() << "test";
+    filterTrans.setCategory(ui->cmb_Cat->currentText() == "<none>" ? "" : ui->cmb_Cat->currentText());
     household->retrieveTrans(filterTrans, dataset);
     ui->tbl_Overview->setRowCount(dataset.size() + 1);
     logic::transaction buffer;
@@ -81,7 +92,6 @@ void GUI::MainWindow::filter()
             ui->tbl_Overview->setItem(i, 1, qTableWidgetItem);
 
             qTableWidgetItem = new QTableWidgetItem(QDate::fromString( buffer.getDate(),"yyyy-MM-dd").toString());
-            //std::cerr << QDate::fromString( buffer.getDate(),"yyyy-MM-dd").toString().toStdString() << ":" << ui->date_from->date().toString("yyyy-MM-dd").toStdString() <<std::endl;
             qTableWidgetItem->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
             ui->tbl_Overview->setItem(i, 2, qTableWidgetItem);
 

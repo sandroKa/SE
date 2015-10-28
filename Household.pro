@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     login.cpp \
     data.cpp \
     household.cpp \
-    transaction.cpp
+    transaction.cpp \
+    category.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
     data.h \
     idata.h \
     household.h \
-    transaction.h
+    transaction.h \
+    category.h
 
 FORMS    += mainwindow.ui \
     login.ui

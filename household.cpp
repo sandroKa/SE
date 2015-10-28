@@ -63,3 +63,8 @@ void logic::Household::retrieveTrans(const transaction &trans, QList<logic::tran
 {
     data->retrieveTrans(trans, dataset);
 }
+
+void logic::Household::retrieveCats(QList<logic::category> &Cats) const
+{
+    data->retrieveCats(Cats);
+}

@@ -3,6 +3,7 @@
 
 #include "data.h"
 #include "transaction.h"
+#include "category.h"
 
 namespace logic
 {
@@ -27,6 +28,7 @@ namespace logic
             bool setNewPassword(const QString&, int);
 
             void retrieveTrans(const transaction&, QList<transaction>&dataset) const;
+            void retrieveCats(QList<category>&) const;
     };
 }
 
