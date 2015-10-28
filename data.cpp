@@ -208,7 +208,7 @@ void Data::Data::retrieveTrans(const logic::transaction &trans, QList<logic::tra
     dataset.clear();
     QString Date_from = trans.getDate_from(), Date_to = trans.getDate_to(), Category = trans.getCategory();
     int index = trans.getIndex(), UserID = trans.getUserID();
-    QString sql = "SELECT Reason, Comment, Date, CatName, PaymentMethod, Value FROM TransactionDB LEFT JOIN CategoryDB ON TransactionDB.CategoryID=CategoryDB.CatID";
+    QString sql = "SELECT Reason, Comment, Date, CatName, PaymentMethod, Value, TransID FROM TransactionDB LEFT JOIN CategoryDB ON TransactionDB.CategoryID=CategoryDB.CatID";
     sql += UserID <= 0 ? "" : " WHERE UserID = :id";
     sql += Date_from.isEmpty() ? "" : " AND Date(Date) Between Date(:Date_from)";
     sql += Date_to.isEmpty() ? "" : " AND Date(:Date_to)";
@@ -240,6 +240,7 @@ void Data::Data::retrieveTrans(const logic::transaction &trans, QList<logic::tra
                             buffer.setCategory(query.value(3).toString());
                             buffer.setPayment_Method(query.value(4).toString());
                             buffer.setValue(query.value(5).toInt());
+                            buffer.setTransID(query.value(6).toInt());
                             dataset.append(buffer);
                         }                        
                         return;

@@ -22,6 +22,7 @@ namespace GUI
 
         int start(QApplication *);
         void filter();
+        void refreshui();
 
     private slots:
         void on_btn_filter_clicked();

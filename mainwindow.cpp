@@ -22,17 +22,7 @@ GUI::MainWindow::MainWindow(QWidget *parent) :
 
     QStringList list=(QStringList()<<"10"<<"20"<<"50");
     ui->cmb_DataCount->addItems(list);
-    household->retrieveCats(categorysset);
-    QListIterator<logic::category> dataIterator(categorysset);
-    list.clear();
-    list.append("<none>");
-    logic::category buffer;
-    while(dataIterator.hasNext())
-    {
-        buffer = dataIterator.next();
-        list.append(buffer.getCatName());
-    }
-    ui->cmb_Cat->addItems(list);
+    refreshui();
 
     /*for(int i = 0; i < 5; i++)
         {
@@ -109,7 +99,24 @@ void GUI::MainWindow::filter()
             ui->tbl_Overview->setItem(i, 5, qTableWidgetItem);
 
             i++;
-        }
+    }
+}
+
+void GUI::MainWindow::refreshui()
+{
+    QStringList list;
+    household->retrieveCats(categorysset);
+    QListIterator<logic::category> dataIterator(categorysset);
+    list.clear();
+    list.append("<none>");
+    logic::category buffer;
+    while(dataIterator.hasNext())
+    {
+        buffer = dataIterator.next();
+        list.append(buffer.getCatName());
+    }
+    ui->cmb_Cat->addItems(list);
+
 }
 
 void GUI::MainWindow::on_btn_filter_clicked()
