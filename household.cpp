@@ -58,3 +58,8 @@ bool logic::Household::setNewPassword(const QString &, int)
 {
 
 }
+
+void logic::Household::retrieveTrans(const transaction &trans, QList<logic::transaction> &dataset) const
+{
+    data->retrieveTrans(trans, dataset);
+}

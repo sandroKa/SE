@@ -21,6 +21,7 @@ namespace Data
         virtual void retrieveMemberList(QList<int>&);
         virtual int updateLogins(int, bool);
         virtual void lock(int);
+        virtual void retrieveTrans(const logic::transaction&, QList<logic::transaction>&);
 
         virtual ~Data();
     private:

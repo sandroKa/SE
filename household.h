@@ -2,6 +2,7 @@
 #define HOUSEHOLD_H
 
 #include "data.h"
+#include "transaction.h"
 
 namespace logic
 {
@@ -25,6 +26,7 @@ namespace logic
             bool deleteUser(int);
             bool setNewPassword(const QString&, int);
 
+            void retrieveTrans(const transaction&, QList<transaction>&dataset) const;
     };
 }
 

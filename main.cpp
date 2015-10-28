@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     //MainWindow w;
     //w.show();
+    cerr << "Start" << endl;
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName("/Users/Trax/Documents/Studium/SE/Household/HouseholdDB");
     if (!db.open())

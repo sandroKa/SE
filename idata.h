@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QList>
+#include "transaction.h"
 namespace Data
 {
     class IData
@@ -20,6 +21,7 @@ namespace Data
         virtual void retrieveMemberList(QList<int>&) = 0;
         virtual int updateLogins(int, bool) = 0;
         virtual void lock(int) = 0;
+        virtual void retrieveTrans(const logic::transaction&, QList<logic::transaction>&) = 0;
     };
 }
 

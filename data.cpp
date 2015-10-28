@@ -166,7 +166,6 @@ int Data::Data::updateLogins(int id, bool reset)
     {
         Login_Tries = 0;
     }
-    cerr << Login_Tries;
 
     if(!query.prepare("UPDATE UserDB SET Login_Tries = :value "
                           "WHERE ID = :id;"))
@@ -201,8 +200,51 @@ void Data::Data::lock(int id)
             {
                 cout << query.lastError().text().toStdString() << endl;
             }
-        }
+    }
 }
+
+void Data::Data::retrieveTrans(const logic::transaction &trans, QList<logic::transaction> &dataset)
+{
+    dataset.clear();
+    QString Date_from = trans.getDate_from(), Date_to = trans.getDate_to();
+    int index = trans.getIndex();
+    QString sql = "SELECT Reason, Comment, Date, CategoryID, PaymentMethod, Value FROM TransactionDB WHERE UserID = :id";
+    sql += Date_from.isEmpty() ? "" : " AND Date(Date) Between Date(:Date_from)";
+    sql += Date_to.isEmpty() ? "" : " AND Date(:Date_to)";
+    sql += index == 0 ? "" : " limit :index";
+    sql += ";";
+
+
+    if(query.prepare(sql))
+        {
+            query.bindValue(":id", trans.getUserID());
+            if(!Date_from.isEmpty())
+                query.bindValue(":Date_from", Date_from);
+            if(!Date_to.isEmpty())
+                query.bindValue(":Date_to", Date_to);
+            if(index > 0)
+                query.bindValue(":index", index);
+            if(query.exec())
+                    {
+                        logic::transaction buffer;
+
+                        while(query.next())
+                        {
+                            buffer.setReason(query.value(0).toString());
+                            buffer.setComment(query.value(1).toString());
+                            buffer.setDate(query.value(2).toString());
+                            buffer.setCategory(query.value(3).toString());
+                            buffer.setPayment_Method(query.value(4).toString());
+                            buffer.setValue(query.value(5).toInt());
+                            dataset.append(buffer);
+                        }                        
+                        return;
+                    }
+         }
+    cerr << query.lastError().text().toStdString() << endl;
+}
+
+
 
 Data::Data::~Data()
 {
