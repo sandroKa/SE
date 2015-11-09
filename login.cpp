@@ -64,6 +64,7 @@ void GUI::Login::on_btn_OK_clicked()
     int loginval = household->loginUser(mail, hash);
     if (loginval == 1)
     {
+        household->setId(household->retrieveUserID(mail));
         accept();
     }
     else if (loginval == -2){

@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "login.h"
+#include "gui_addtransaction.h"
+#include "gui_error.h"
 #include <iostream>
 
 GUI::MainWindow::MainWindow(QWidget *parent) :
@@ -23,18 +25,12 @@ GUI::MainWindow::MainWindow(QWidget *parent) :
     QStringList list=(QStringList()<<"10"<<"20"<<"50");
     ui->cmb_DataCount->addItems(list);
     refreshui();
-
-    /*for(int i = 0; i < 5; i++)
-        {
-            rows[i] = new QLineEdit;
-            connect(rows[i], SIGNAL(editingFinished()), this, SLOT(filtern()));
-            ui->tbl_Overview->setCellWidget(0, i, rows[i]);
-        }*/
 }
 
 GUI::MainWindow::~MainWindow()
 {
     delete ui;
+    delete household;
 }
 
 int GUI::MainWindow::start(QApplication *qApplication)
@@ -64,7 +60,7 @@ void GUI::MainWindow::filter()
     filterTrans.setIndex(ui->cmb_DataCount->currentText().toInt());
     filterTrans.setCategory(ui->cmb_Cat->currentText() == "<none>" ? "" : ui->cmb_Cat->currentText());
     household->retrieveTrans(filterTrans, dataset);
-    ui->tbl_Overview->setRowCount(dataset.size() + 1);
+    ui->tbl_Overview->setRowCount(dataset.size());
     logic::transaction buffer;
     QListIterator<logic::transaction> dataIterator(dataset);
     QTableWidgetItem *qTableWidgetItem;
@@ -122,4 +118,43 @@ void GUI::MainWindow::refreshui()
 void GUI::MainWindow::on_btn_filter_clicked()
 {
     filter();
+}
+
+int GUI::MainWindow::selected()
+{
+    QList<QTableWidgetSelectionRange> selected = ui->tbl_Overview->selectedRanges();
+
+        if(selected.count())
+        {
+            int i = selected.first().topRow();
+
+            return i;
+        }
+        GUI::gui_error::show("No Selection", "Please Select a Transaction");
+        return -1;
+}
+
+void GUI::MainWindow::on_btn_addTrans_clicked()
+{
+    GUI::gui_addTransaction gui_addTransaction(categorysset,household, this);
+    if(gui_addTransaction.exec() == QDialog::Accepted){
+        filter();
+    }
+}
+
+void GUI::MainWindow::on_btn_delete_clicked()
+{
+    int i = selected();
+
+
+    //std::cerr << dataset.at(i).getReason().toStdString();
+
+    if (i != -1){
+        GUI::gui_addTransaction gui_addTransaction(dataset.at(i),categorysset, household, this);
+        if(gui_addTransaction.exec() == QDialog::Accepted){
+            filter();
+        }
+    }
+
+    //std::cerr << i;
 }

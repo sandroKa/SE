@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     data.cpp \
     household.cpp \
     transaction.cpp \
-    category.cpp
+    category.cpp \
+    gui_addtransaction.cpp \
+    gui_error.cpp
 
 HEADERS  += mainwindow.h \
     login.h \
@@ -27,10 +29,13 @@ HEADERS  += mainwindow.h \
     idata.h \
     household.h \
     transaction.h \
-    category.h
+    category.h \
+    gui_addtransaction.h \
+    gui_error.h
 
 FORMS    += mainwindow.ui \
-    login.ui
+    login.ui \
+    gui_addtransaction.ui
 
 DISTFILES += \
     HouseholdDB

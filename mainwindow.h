@@ -26,6 +26,10 @@ namespace GUI
 
     private slots:
         void on_btn_filter_clicked();
+        int selected();
+        void on_btn_addTrans_clicked();
+
+        void on_btn_delete_clicked();
 
     private:
         Ui::MainWindow *ui;

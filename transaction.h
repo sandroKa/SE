@@ -18,6 +18,7 @@ namespace logic
         QString Date_from;
         QString Date_to;
         QString Comment;
+        int CategoryID;
         int Index;
 
     public:
@@ -45,6 +46,8 @@ namespace logic
         void setDate_from(const QString &value);
         int getIndex() const;
         void setIndex(int value);
+        int getCategoryID() const;
+        void setCategoryID(int value);
     };
 }
 #endif // TRANSACTION_H

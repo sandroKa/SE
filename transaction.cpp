@@ -31,6 +31,16 @@ void logic::transaction::setIndex(int value)
     Index = value;
 }
 
+int logic::transaction::getCategoryID() const
+{
+    return CategoryID;
+}
+
+void logic::transaction::setCategoryID(int value)
+{
+    CategoryID = value;
+}
+
 logic::transaction::transaction()
 {
     

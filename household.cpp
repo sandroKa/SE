@@ -2,10 +2,19 @@
 #include "data.h"
 #include "iostream"
 
+int logic::Household::getId() const
+{
+    return id;
+}
+
+void logic::Household::setId(int value)
+{
+    id = value;
+}
 
 logic::Household::Household() : data(new Data::Data)
 {
-
+    
 }
 
 logic::Household::~Household()
@@ -59,9 +68,29 @@ bool logic::Household::setNewPassword(const QString &, int)
 
 }
 
+int logic::Household::retrieveUserID(const QString &mail)
+{
+       return data->retrieveMemberID(mail);
+}
+
 void logic::Household::retrieveTrans(const transaction &trans, QList<logic::transaction> &dataset) const
 {
     data->retrieveTrans(trans, dataset);
+}
+
+bool logic::Household::insertTrans(const logic::transaction &trans) const
+{
+    return data->insertTrans(trans);
+}
+
+bool logic::Household::updateTrans(const logic::transaction &trans) const
+{
+    return data->updateTrans(trans);
+}
+
+bool logic::Household::deleteTrans(int TransID) const
+{
+    return data->deleteTrans(TransID);
 }
 
 void logic::Household::retrieveCats(QList<logic::category> &Cats) const

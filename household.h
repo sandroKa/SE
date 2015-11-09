@@ -26,9 +26,14 @@ namespace logic
             int newUser(const QString&);
             bool deleteUser(int);
             bool setNewPassword(const QString&, int);
-
+            int retrieveUserID(const QString&);
             void retrieveTrans(const transaction&, QList<transaction>&dataset) const;
+            bool insertTrans(const transaction&) const;
+            bool updateTrans(const transaction&) const;
+            bool deleteTrans(int) const;
             void retrieveCats(QList<category>&) const;
+            int getId() const;
+            void setId(int value);
     };
 }
 

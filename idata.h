@@ -23,6 +23,9 @@ namespace Data
         virtual int updateLogins(int, bool) = 0;
         virtual void lock(int) = 0;
         virtual void retrieveTrans(const logic::transaction&, QList<logic::transaction>&) = 0;
+        virtual bool insertTrans(const logic::transaction&) = 0;
+        virtual bool updateTrans(const logic::transaction&) = 0;
+        virtual bool deleteTrans(int) = 0;
         virtual void retrieveCats(QList<logic::category>&) = 0;
     };
 }

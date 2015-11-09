@@ -208,7 +208,7 @@ void Data::Data::retrieveTrans(const logic::transaction &trans, QList<logic::tra
     dataset.clear();
     QString Date_from = trans.getDate_from(), Date_to = trans.getDate_to(), Category = trans.getCategory();
     int index = trans.getIndex(), UserID = trans.getUserID();
-    QString sql = "SELECT Reason, Comment, Date, CatName, PaymentMethod, Value, TransID FROM TransactionDB LEFT JOIN CategoryDB ON TransactionDB.CategoryID=CategoryDB.CatID";
+    QString sql = "SELECT Reason, Comment, Date, CatName, PaymentMethod, Value, TransID, CategoryID FROM TransactionDB LEFT JOIN CategoryDB ON TransactionDB.CategoryID=CategoryDB.CatID";
     sql += UserID <= 0 ? "" : " WHERE UserID = :id";
     sql += Date_from.isEmpty() ? "" : " AND Date(Date) Between Date(:Date_from)";
     sql += Date_to.isEmpty() ? "" : " AND Date(:Date_to)";
@@ -241,12 +241,80 @@ void Data::Data::retrieveTrans(const logic::transaction &trans, QList<logic::tra
                             buffer.setPayment_Method(query.value(4).toString());
                             buffer.setValue(query.value(5).toInt());
                             buffer.setTransID(query.value(6).toInt());
+                            buffer.setCategoryID(query.value(7).toInt());
                             dataset.append(buffer);
                         }                        
                         return;
                     }
          }
     cerr << query.lastError().text().toStdString() << endl;
+}
+
+bool Data::Data::insertTrans(const logic::transaction &trans)
+{
+    if(query.prepare("INSERT INTO TransactionDB (UserID, PaymentMethod, "
+                          "Reason, Value, CategoryID, Date, Comment) "
+                          "VALUES (:UserID, :PaymentMethod, :Reason, "
+                          ":Value, :CategoryID, :Date, :Comment);"))
+        {
+            query.bindValue(":UserID", trans.getUserID());
+            query.bindValue(":PaymentMethod", trans.getPayment_Method());
+            query.bindValue(":Reason", trans.getReason());
+            query.bindValue(":Value", trans.getValue());
+            query.bindValue(":CategoryID", trans.getCategoryID());
+            query.bindValue(":Date", trans.getDate());
+            query.bindValue(":Comment", trans.getComment());
+
+            if(query.exec())
+            {
+                return true;
+            }
+        }
+
+        cerr << query.lastError().text().toStdString() << endl;
+        return false;
+}
+
+bool Data::Data::updateTrans(const logic::transaction &trans)
+{
+    if(query.prepare("UPDATE TransactionDB SET UserID = :UserID, PaymentMethod = :PaymentMethod, "
+                          "Reason = :Reason, Value = :Value, CategoryID = :CategoryID, Date = :Date, Comment = :Comment "
+                          "WHERE TransID = :TransID;"))
+        {
+            query.bindValue(":UserID", trans.getUserID());
+            query.bindValue(":PaymentMethod", trans.getPayment_Method());
+            query.bindValue(":Reason", trans.getReason());
+            query.bindValue(":Value", trans.getValue());
+            query.bindValue(":CategoryID", trans.getCategoryID());
+            query.bindValue(":Date", trans.getDate());
+            query.bindValue(":Comment", trans.getComment());
+            query.bindValue(":TransID", trans.getTransID());
+
+            if(query.exec())
+            {
+                return true;
+            }
+        }
+
+        cerr << query.lastError().text().toStdString() << endl;
+        return false;
+}
+
+bool Data::Data::deleteTrans(int TransID)
+{
+    if(!query.prepare("DELETE FROM TransactionDB "
+                          "WHERE TransID = :TransID;"))
+        {
+            cerr << query.lastError().text().toStdString() << endl;
+        }
+        else
+        {
+            query.bindValue(":TransID", TransID);
+            if(!query.exec())
+            {
+                cerr << query.lastError().text().toStdString() << endl;
+            }
+        }
 }
 
 void Data::Data::retrieveCats(QList<logic::category> &Cats)
