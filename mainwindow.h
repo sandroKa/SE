@@ -25,7 +25,9 @@ namespace GUI
         void refreshui();
 
     private slots:
-        void on_btn_filter_clicked();
+
+        void slotFilter();
+
         int selected();
         void on_btn_addTrans_clicked();
 

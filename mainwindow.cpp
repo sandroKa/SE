@@ -27,6 +27,11 @@ GUI::MainWindow::MainWindow(QWidget *parent) :
     QStringList list=(QStringList()<<"10"<<"20"<<"50");
     ui->cmb_DataCount->addItems(list);
     refreshui();
+
+    connect(ui->cmb_Cat, SIGNAL(currentIndexChanged(int)), this, SLOT(slotFilter()));
+    connect(ui->cmb_DataCount, SIGNAL(currentIndexChanged(int)), this, SLOT(slotFilter()));
+    connect(ui->date_from, SIGNAL(dateChanged(QDate)), this, SLOT(slotFilter()));
+    connect(ui->date_to, SIGNAL(dateChanged(QDate)), this, SLOT(slotFilter()));
 }
 
 GUI::MainWindow::~MainWindow()
@@ -42,7 +47,7 @@ int GUI::MainWindow::start(QApplication *qApplication)
     if(exec == QDialog::Accepted)
     {
         show();
-        filter();
+        slotFilter();
         return qApplication->exec();
     }
     else
@@ -51,7 +56,7 @@ int GUI::MainWindow::start(QApplication *qApplication)
     }
 }
 
-void GUI::MainWindow::filter()
+void GUI::MainWindow::slotFilter()
 {
     ui->tbl_Overview->clearContents();
 
@@ -117,10 +122,6 @@ void GUI::MainWindow::refreshui()
 
 }
 
-void GUI::MainWindow::on_btn_filter_clicked()
-{
-    filter();
-}
 
 int GUI::MainWindow::selected()
 {
@@ -140,7 +141,7 @@ void GUI::MainWindow::on_btn_addTrans_clicked()
 {
     GUI::gui_addTransaction gui_addTransaction(categorysset,household, this);
     if(gui_addTransaction.exec() == QDialog::Accepted){
-        filter();
+        slotFilter();
     }
 }
 
@@ -154,7 +155,7 @@ void GUI::MainWindow::on_btn_delete_clicked()
     if (i != -1){
         GUI::gui_addTransaction gui_addTransaction(dataset.at(i),categorysset, household, this);
         if(gui_addTransaction.exec() == QDialog::Accepted){
-            filter();
+            slotFilter();
         }
     }
 
