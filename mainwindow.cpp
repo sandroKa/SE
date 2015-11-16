@@ -5,6 +5,8 @@
 #include "gui_error.h"
 #include <iostream>
 
+// Test Crina commit
+
 GUI::MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
