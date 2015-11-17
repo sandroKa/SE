@@ -17,7 +17,8 @@ int main(int argc, char *argv[])
     //w.show();
     cerr << "Start" << endl;
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("C:\\Users\\crina\\Documents\\GitHub\\Haushaltsfuehrung\\SE\\SE\\HouseholdDB");
+    db.setDatabaseName("/Users/Trax/Documents/Studium/SE/Household/HouseholdDB"); //BirkDB
+    //db.setDatabaseName("C:\\Users\\crina\\Documents\\GitHub\\Haushaltsfuehrung\\SE\\SE\\HouseholdDB"); //CrinaDB
     if (!db.open())
         {
             cerr << "Fehler beim oeffnen der Datenbank!" << endl;
